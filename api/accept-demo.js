@@ -23,7 +23,11 @@ module.exports = async function handler(req, res) {
   const { name, email, project } = payload
   const resend   = new Resend(process.env.RESEND_API_KEY)
   const appUrl   = PROJECT_URLS[project] || 'https://app.tradingai.dev'
-  const demoToken = jwt.sign({ email, project, demo: true }, TRADINGAI_DEMO_SECRET, { expiresIn: '10m' })
+  const demoToken = jwt.sign(
+    { email, project, demo: true },
+    TRADINGAI_DEMO_SECRET,
+    { expiresIn: '10m', jwtid: require('crypto').randomUUID() }
+  )
   const demoLink  = `${appUrl}/demo-login?token=${demoToken}`
 
   try {
