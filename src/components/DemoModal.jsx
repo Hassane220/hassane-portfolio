@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import emailjs from '@emailjs/browser'
 import { X } from 'lucide-react'
-
-const EJS_SERVICE  = 'service_dcg1yzm'
-const EJS_TEMPLATE = 'template_clhfel6'
-const EJS_KEY      = 'MopfvrlZJ-Ah4Ya8S'
 
 function ArrowIcon() {
   return (
@@ -26,17 +21,12 @@ export default function DemoModal({ p, lang, onClose }) {
     setLoading(true)
     setError('')
     try {
-      await emailjs.send(
-        EJS_SERVICE,
-        EJS_TEMPLATE,
-        {
-          name:    name,
-          email:   email,
-          title:   p.title[lang],
-          message: `Demande d'accès pour le projet : ${p.title[lang]}`,
-        },
-        EJS_KEY
-      )
+      const res = await fetch('/api/request-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, project: p.title[lang] }),
+      })
+      if (!res.ok) throw new Error()
       setSent(true)
     } catch {
       setError(lang === 'fr' ? 'Erreur, réessaie.' : 'Error, please try again.')
