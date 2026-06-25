@@ -2,9 +2,9 @@ import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { X } from 'lucide-react'
 
-const EJS_SERVICE  = 'service_XXXXXXX'   // à remplacer
-const EJS_TEMPLATE = 'template_XXXXXXX'  // à remplacer
-const EJS_KEY      = 'XXXXXXXXXXXXXXXXXXXX' // à remplacer
+const EJS_SERVICE  = 'service_dcg1yzm'
+const EJS_TEMPLATE = 'template_clhfel6'
+const EJS_KEY      = 'MopfvrlZJ-Ah4Ya8S'
 
 function ArrowIcon() {
   return (
@@ -30,10 +30,10 @@ export default function DemoModal({ p, lang, onClose }) {
         EJS_SERVICE,
         EJS_TEMPLATE,
         {
-          from_name:  name,
-          from_email: email,
-          project:    p.title[lang],
-          to_email:   'hassanesoumahoro6@gmail.com',
+          name:    name,
+          email:   email,
+          title:   p.title[lang],
+          message: `Demande d'accès pour le projet : ${p.title[lang]}`,
         },
         EJS_KEY
       )
