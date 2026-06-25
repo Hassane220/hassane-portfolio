@@ -5,8 +5,8 @@ const PORTFOLIO_SECRET      = process.env.PORTFOLIO_SECRET
 const TRADINGAI_DEMO_SECRET = process.env.TRADINGAI_DEMO_SECRET
 
 const PROJECT_URLS = {
-  'TradingAI — Dashboard de trading': 'https://app.tradingai.dev',
-  'TradingAI — Trading dashboard':    'https://app.tradingai.dev',
+  'TradingAI — Dashboard de trading': 'https://trading.nxs-solutions.com',
+  'TradingAI — Trading dashboard':    'https://trading.nxs-solutions.com',
 }
 
 module.exports = async function handler(req, res) {
