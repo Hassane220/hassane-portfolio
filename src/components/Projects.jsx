@@ -96,12 +96,6 @@ function ProjectCard({ p, lang, onDemo }) {
               <span key={s} className="chip">{s}</span>
             ))}
           </div>
-          {p.hasDemo && (
-            <button className="demo-link" onClick={() => onDemo(p)}>
-              {lang === 'fr' ? 'Demander un accès' : 'Request access'}
-              <ArrowExtIcon />
-            </button>
-          )}
         </div>
       </div>
     </Reveal>
