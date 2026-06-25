@@ -1,0 +1,32 @@
+name: Deploy — Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Déploiement Vercel Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Déployer sur Vercel (prod)
+        run: |
+          npx vercel --token ${{ secrets.VERCEL_TOKEN }} \
+            --yes --prod \
+            --scope hassanes-projects-ca0e15fa
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
