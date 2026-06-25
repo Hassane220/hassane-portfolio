@@ -21,6 +21,33 @@ module.exports = async function handler(req, res) {
   }
 
   const { name, email, project } = payload
+  const jti = payload.jti
+
+  // Vérifier + marquer le token comme utilisé sur le VPS
+  if (jti) {
+    try {
+      const check = await fetch('https://trading.nxs-solutions.com/api/accept-token-use', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Demo-Secret': process.env.TRADINGAI_DEMO_SECRET,
+        },
+        body: JSON.stringify({ jti, exp: payload.exp }),
+      })
+      if (check.status === 409) {
+        res.setHeader('Content-Type', 'text/html')
+        return res.status(200).send(`
+          <html><body style="font-family:sans-serif;text-align:center;padding:60px">
+            <h2>⚠️ Lien déjà utilisé</h2>
+            <p>Cet accès a déjà été accordé. Un seul accès par demande.</p>
+          </body></html>
+        `)
+      }
+    } catch {
+      // Si le VPS est injoignable, on bloque par sécurité
+      return res.status(503).send('Service temporairement indisponible.')
+    }
+  }
   const resend   = new Resend(process.env.RESEND_API_KEY)
   const appUrl   = PROJECT_URLS[project] || 'https://app.tradingai.dev'
   const demoToken = jwt.sign(

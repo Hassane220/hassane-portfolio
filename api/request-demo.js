@@ -15,7 +15,7 @@ module.exports = async function handler(req, res) {
     ? `https://${process.env.VERCEL_URL}`
     : 'http://localhost:3000'
 
-  const requestToken = jwt.sign({ name, email, project }, PORTFOLIO_SECRET, { expiresIn: '24h' })
+  const requestToken = jwt.sign({ name, email, project }, PORTFOLIO_SECRET, { expiresIn: '24h', jwtid: require('crypto').randomUUID() })
   const acceptUrl    = `${baseUrl}/api/accept-demo?token=${requestToken}`
 
   try {
